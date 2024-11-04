@@ -79,7 +79,7 @@
 							<br>
 							{{ Carbon\Carbon::parse(strtotime($i["created_at"]))->translatedFormat("H:i:s") }}
 						</td>
-						<th>
+						<th class="text-center">
 							@if ($i["id"] != session("user")[0]["id"])
 								<div class="flex items-center justify-center gap-3 px-6 py-4">
 									@include("User.update")
