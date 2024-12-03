@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use app\API\Endpoint;
 use App\Helpers\Shortcut;
-use Illuminate\Support\Facades\Request;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -13,13 +13,36 @@ class DashboardController extends Controller
 
     function index()
     {
-        $res = Endpoint::get($this->url, session('user')[0]['remember_token']);
-        return view('Dashboard.index', [
-            'data'   => $res['data'],
-            'view'   => $this->view,
-            'url'    => $this->url,
-            'home'   => $this->url,
-            'dashboard' => Shortcut::access()
-        ]);
+        try {
+            $res = Endpoint::get($this->url, session('user')[0]['remember_token']);
+            $user = [];
+            foreach ($res['data']['graph_user'] as $i) {
+                $user['categories'][] = Carbon::parse(strtotime($i["date"]))->translatedFormat("l, d F Y");
+                $user['data'][] = $i['count'];
+            }
+            $log = [];
+            foreach ($res['data']['graph_log'] as $i) {
+                $log['categories'][] = Carbon::parse(strtotime($i["date"]))->translatedFormat("l, d F Y");
+                $log['data'][] = $i['count'];
+            }
+            $role = [];
+            foreach ($res['data']['graph_role'] as $i) {
+                $role['categories'][] = Carbon::parse(strtotime($i["date"]))->translatedFormat("l, d F Y");
+                $role['data'][] = $i['count'];
+            }
+
+            return view('Dashboard.index', [
+                'data'   => $res['data'],
+                'user'    => $user,
+                'log'    => $log,
+                'role'    => $role,
+                'view'   => $this->view,
+                'url'    => $this->url,
+                'home'   => $this->url,
+                'dashboard' => Shortcut::access()
+            ]);
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 }

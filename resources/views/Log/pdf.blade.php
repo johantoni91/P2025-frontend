@@ -1,72 +1,71 @@
 <!DOCTYPE html>
-
 <html>
 
 	<head>
-		<title>Laporan</title>
-		<style type="text/css">
-			.center {
+		<meta http-equiv="Content-Type"
+			content="text/html; charset=utf-8" />
+		<style>
+			#header {
 				text-align: center;
 			}
 
-			.full {
+			.table {
 				width: 100%;
+				border-collapse: collapse;
 			}
 
-			.wrapper {
-				padding-left: 30px;
-				padding-right: 30px;
+			.mx-auto {
+				padding: 0 4rem;
 			}
 
-			.kanan {
-				float: right;
-				display: block;
-				width: 200px;
+			.vertical-top {
+				vertical-align: top;
 			}
 
-			.kiri {
-				float: left;
-				display: block;
-				width: 200px;
+			.left {
+				text-align: left;
 			}
 
-			table {
-				text-align: center;
+			.table tr th,
+			.table tr {
+				padding: 10px;
+				border: 1px solid #000;
+			}
+
+			.table td {
+				padding: 10px;
+				max-width: 2rem;
+				word-wrap: break-word;
+				border: 1px solid #000;
 			}
 		</style>
 	</head>
 
 	<body>
-		<div class="center">
-			<div>
-				<h3>Tabel Daftar Aktivitas Aplikasi</h3>
-			</div>
+		<div id="header">
+			<h3>Tabel Daftar Aktivitas Aplikasi</h3>
 		</div>
-		<table class="table-striped table"
-			id="tableDT"
-			width="100%">
+		<table class="table">
 			<thead>
-				<th>No.</th>
-				<th style="white-space: nowrap;">Nama Pengguna</th>
-				<th>Aksi</th>
-				<th>Entitas</th>
-				<th>Alamat IP</th>
-				<th>User Agent</th>
-				<th>URL</th>
-				<th>Pesan</th>
-				<th>Waktu</th>
+				<tr>
+					<th style="width: 30px;">No</th>
+					<th>Nama</th>
+					<th>Aksi</th>
+					<th>Alamat IP</th>
+					<th>User Agent</th>
+					<th>Waktu</th>
+				</tr>
 			</thead>
 			<tbody>
 				@foreach ($data as $i)
 					<tr>
-						<td>{{ $loop->iteration }}</td>
-						<td>{{ $i["username"] }}</td>
-						<td>{{ $i["action"] }}</td>
-						<td>{{ $i["entity"] }}</td>
-						<td>{{ $i["ip_address"] }}</td>
+						<td id="header">{{ $loop->iteration }}.</td>
+						<td>{{ $i["username"] }}
+						</td>
+						<td>{{ $i["action"] }}
+						</td>
+						<td style="text-align: center;">{{ $i["ip_address"] }}</td>
 						<td>{{ $i["user_agent"] }}</td>
-						<td>{{ $i["url"] }}</td>
-						<td>{{ $i["message"] }}</td>
 						<td>{{ Carbon\Carbon::parse(strtotime($i["created_at"]))->translatedFormat("l, d F Y") }}
 							<br>
 							{{ Carbon\Carbon::parse(strtotime($i["created_at"]))->translatedFormat("H:i:s") }}

@@ -27,6 +27,7 @@
 					<th class="px-6 py-3"
 						scope="col">
 						Nama
+						</a>
 					</th>
 					<th class="px-6 py-3"
 						scope="col">
@@ -34,7 +35,7 @@
 					</th>
 					<th class="px-6 py-3"
 						scope="col">
-						Alamat IP
+						IP Address
 					</th>
 					<th class="px-6 py-3"
 						scope="col">
@@ -58,7 +59,7 @@
 						<td class="px-6 py-4">
 							{{ $i["username"] }}
 						</td>
-						<td class="px-6 py-4">
+						<td class="text-wrap w-24 overflow-x-scroll px-6 py-4">
 							{{ strlen($i["action"]) > 35 ? substr($i["action"], 0, 35) . "..." : $i["action"] }}
 						</td>
 						<td class="px-6 py-4 text-center">
@@ -66,7 +67,7 @@
 						</td>
 						<td class="px-6 py-4 text-center">
 							{{ Carbon\Carbon::parse(strtotime($i["created_at"]))->translatedFormat("l, d F Y") }},
-							{{ Carbon\Carbon::parse(strtotime($i["created_at"]))->translatedFormat("H:i:s") }}
+							{{ Carbon\Carbon::parse(strtotime($i["created_at"]))->format("H:i:s") }}
 						</td>
 						{{-- <td class="flex justify-center px-6 py-4">
 

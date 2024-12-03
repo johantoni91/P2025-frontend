@@ -77,22 +77,62 @@
 						<td class="px-6 py-4">
 							{{ Carbon\Carbon::parse(strtotime($i["created_at"]))->translatedFormat("l, d F Y") }}
 							<br>
-							{{ Carbon\Carbon::parse(strtotime($i["created_at"]))->translatedFormat("H:i:s") }}
+							{{ Carbon\Carbon::parse($i["created_at"])->setTimezone("Asia/Jakarta")->format("H:i:s") }}
 						</td>
 						<th class="text-center">
 							@if ($i["id"] != session("user")[0]["id"])
 								<div class="flex items-center justify-center gap-3 px-6 py-4">
-									@include("User.update")
+									<a class="font-medium hover:animate-pulse"
+										href='{{ route("users.getToken", $i["id"]) }}'><img src="{{ asset("assets/components/role.ico") }}"
+											alt=""
+											width="40"
+											height="40"></a>
+									<a class="font-medium hover:animate-pulse"
+										href='{{ route("users.edit", $i["id"]) }}'><img src="{{ asset("assets/components/edit.ico") }}"
+											alt=""
+											width="40"
+											height="40"></a>
 									<button class="font-medium hover:animate-pulse"
 										id="del{{ $i["id"] }}"
 										type="button"><img src="{{ asset("assets/components/trash.ico") }}"
 											alt=""
-											width="25"
-											height="25"></button>
-									@include("Additional.confirm", [
-										"title" => "Hapus Akun " . $i["name"],
-										"route" => route("users.destroy", $i["id"]),
-									])
+											width="40"
+											height="40"></button>
+									<script>
+										$(function() {
+											$('#del{{ $i["id"] }}').on('click', function() {
+												Swal.fire({
+													title: '{{ "Hapus Akun " . $i["name"] }} . ?',
+													showDenyButton: true,
+													confirmButtonText: "Ya",
+													denyButtonText: `Batal`,
+													denyButtonColor: "#ff0000",
+													confirmButtonColor: "#0004ff",
+												}).then((result) => {
+													if (result.isConfirmed) {
+														$.ajax({
+															url: '{{ route("users.destroy", $i["id"]) }}',
+															success: function(result) {
+																Swal.fire({
+																	title: "Berhasil",
+																	cancelButtonColor: "#0004ff",
+																	confirmButtonColor: "#0004ff",
+																	text: result['message'],
+																	icon: "success"
+																});
+																setTimeout(() => {
+																	location.reload();
+																}, 2000);
+															},
+															error: function(xhr) {
+																Swal.fire("Gagal", xhr, "error");
+															}
+														});
+													}
+												});
+											})
+										})
+									</script>
 								</div>
 							@else
 								<a

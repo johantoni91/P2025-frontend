@@ -26,7 +26,7 @@ return [
         'height' => 80,
         'quality' => 90,
         'lines' => 6,
-        'bgImage' => false,
+        'bgImage' => true,
         'bgColor' => '#ecf2f4',
         'fontColors' => ['#2c3e50', '#c0392b', '#16a085', '#c0392b', '#8e44ad', '#303f9f', '#f57c00', '#795548'],
         'contrast' => -5,
@@ -34,7 +34,7 @@ return [
     'mini' => [
         'length' => 3,
         'width' => 360,
-        'height' => 802,
+        'height' => 80,
     ],
     'inverse' => [
         'length' => 5,

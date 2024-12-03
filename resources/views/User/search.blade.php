@@ -1,7 +1,7 @@
 <button
 	class="inline-flex items-center gap-2 rounded border-b-2 px-4 py-2 text-center text-sm font-medium duration-200 hover:border-2 dark:text-white"
 	data-modal-target="search"
-	data-modal-toggle="search"
+	data-modal-show="search"
 	type="button">
 	<img class="dark:invert"
 		src="{{ asset("assets/components/search.ico") }}"
@@ -14,7 +14,6 @@
 <div
 	class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
 	id="search"
-	data-modal-backdrop="static"
 	aria-hidden="true"
 	tabindex="-1">
 	<div class="relative max-h-full w-full max-w-2xl">
@@ -27,7 +26,7 @@
 				</h3>
 				<button
 					class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-					data-modal-toggle="search"
+					data-modal-hide="search"
 					type="button">
 					<svg class="h-3 w-3"
 						aria-hidden="true"
@@ -80,6 +79,52 @@
 								name="email"
 								type="email"
 								value="{{ isset($i) ? $i["email"] : "" }}" />
+						</div>
+					</div>
+					<div class="mb-6">
+						<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+							for="countries">Tampilan per halaman</label>
+						<select
+							class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+							id="countries"
+							name="pagination">
+							<option value=""
+								selected>Pilih</option>
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="25">25</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+							<option value="250">250</option>
+						</select>
+					</div>
+					<div class="mb-2 flex flex-row justify-center gap-6">
+						<div class="w-full">
+							<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+								for="sort">Urutan data</label>
+							<select
+								class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+								id="sort"
+								name="sort_by">
+								<option disabled
+									selected>Pilih</option>
+								<option value="username">Nama</option>
+								<option value="email">Email</option>
+								<option value="created_at">Waktu bergabung</option>
+							</select>
+						</div>
+						<div class="w-full">
+							<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+								for="sort">Urutan</label>
+							<select
+								class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+								id="sort"
+								name="sort_order">
+								<option disabled
+									selected>Pilih</option>
+								<option value="asc">Naik</option>
+								<option value="desc">Turun</option>
+							</select>
 						</div>
 					</div>
 					<div class="flex justify-end">

@@ -8,6 +8,7 @@ use App\Helpers\Shortcut;
 use App\Http\Requests\UserRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -33,7 +34,6 @@ class UsersController extends Controller
                 'home' => $this->home,
                 'roles' => $role,
                 'dashboard' => Shortcut::access()
-
             ]);
         } catch (\Throwable $th) {
             Session::flush();
@@ -68,9 +68,11 @@ class UsersController extends Controller
             $param = [
                 'name'      => $req->name,
                 'email'     => $req->email,
+                'face'      => $req->face,
                 'role'      => $req->role,
                 'password'  => $req->password
             ];
+
             if ($req->hasFile('photo')) {
                 $attach = [
                     'name'      => 'photo',
@@ -82,6 +84,7 @@ class UsersController extends Controller
             } else {
                 $res = Endpoint::post('register', null, $param);
             }
+
             if ($res['status'] == false) {
                 Alert::error('Gagal', $res['error'] ?? $res['message']);
                 return back();
@@ -97,7 +100,7 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         //
     }
@@ -105,9 +108,18 @@ class UsersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $res = Endpoint::get($this->url . '/find' . '/' . $id, session('user')[0]['remember_token']);
+        $role = Endpoint::get('role', session('user')[0]['remember_token'])['data']['role'];
+        return view('User.update', [
+            'data'  => $res['data'],
+            'roles' => $role,
+            'view'  => 'User.update',
+            'url'   => $this->url,
+            'home' => $this->home,
+            'dashboard' => Shortcut::access()
+        ]);
     }
 
     /**
@@ -140,9 +152,11 @@ class UsersController extends Controller
             $param = [
                 'name'      => $req->name,
                 'email'     => $req->email,
+                'face'      => $req->face,
                 'role'      => $req->role,
                 'password'  => $req->password
             ];
+
             if ($req->hasFile('photo')) {
                 $attach = [
                     'name'      => 'photo',
@@ -190,6 +204,16 @@ class UsersController extends Controller
 
 
 
+    public function getToken($id)
+    {
+        $res = Endpoint::get($this->url . '/token' . '/' . $id, session('user')[0]['remember_token']);
+        if ($res['status'] == false) {
+            Alert::error($res['error'] ?? $res['message']);
+            return back();
+        }
+        Alert::success('Token Untuk Login', $res['data']);
+        return back();
+    }
 
 
 
@@ -202,7 +226,7 @@ class UsersController extends Controller
             'data'  => session('user')[0],
             'view'  => 'User.profile',
             'url'   => $this->url,
-            'home' => 'profile',
+            'home' => $this->home,
             'dashboard' => Shortcut::access()
         ]);
     }
@@ -231,9 +255,11 @@ class UsersController extends Controller
             $param = [
                 'name'      => $req->name,
                 'email'     => $req->email,
+                'face'      => $req->face,
                 'role'      => session('user')[0]['role'],
                 'password'  => $req->password
             ];
+
             if ($req->hasFile('photo')) {
                 $attach = [
                     'name'      => 'photo',
@@ -250,8 +276,7 @@ class UsersController extends Controller
                 return back();
             }
 
-            Alert::success('Berhasil', 'User ' . $req->name . ' Telah diubah');
-            Session::put('user', $res['data']);
+            Alert::success('Profil anda berhasil diubah',  'Login kembali untuk memperbarui tampilan');
             return redirect()->route($this->home);
         } catch (\Throwable $th) {
             Alert::error('Gagal', $th->getMessage());

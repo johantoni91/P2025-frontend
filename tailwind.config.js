@@ -1,18 +1,21 @@
+/*eslint no-undef: "error"*/
+import flowbitePlugin from 'flowbite/plugin';
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   darkMode: 'class',
   content: [
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
-    "./resources/**/*.vue",
     "./node_modules/flowbite/**/*.js"
   ],
   theme: {
     extend: {},
   },
   plugins: [
-    require('flowbite/plugin')({
-      charts: true,
-  }),
+    flowbitePlugin
+  //   require('flowbite/plugin')({
+  //     charts: true,
+  // }),
   ],
 }

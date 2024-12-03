@@ -6,12 +6,11 @@
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1.0">
 		<title>
-			{{ session("layout") ? ucwords(strtok($home, ".")) . " " . session("layout")[0]["short_app_name"] : $layout["short_app_name"] }}
+			{{ session("layout") ? ucwords(strtok($home, ".")) . " | " . session("layout")[0]["short_app_name"] : $layout["short_app_name"] }}
 		</title>
-		{{-- <title>{{ isset($home) ? ucwords(strtok($home, ".")) . " | Project 2025" : "Project 2025" }}</title> --}}
+		<link href="{{ asset("assets/css/flowbite.min.css") }}"
+			rel="stylesheet" />
 		@vite(["resources/css/app.css", "resources/js/app.js"])
-		{{-- <link href="{{ asset("assets/css/animate.css") }}"
-			rel="stylesheet"> --}}
 		<script>
 			// On page load or when changing themes, best to add inline in `head` to avoid FOUC
 			if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
@@ -21,6 +20,11 @@
 				document.documentElement.classList.remove('dark')
 			}
 		</script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.3/dist/sweetalert2.all.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.3/dist/sweetalert2.min.css"rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+		<script type="text/javascript"
+			src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
 		<script src="{{ asset("assets/js/script.min.js") }}"></script>
 	</head>
 
@@ -30,11 +34,15 @@
 		@include("sweetalert::alert")
 
 		@if (!request()->routeIs("login"))
-			@include("Layouts.sidebar")
-			<div class="p-4 sm:ml-64">
-				<div class="my-14 rounded-lg p-4">
+			@if (!request()->routeIs("error.404"))
+				@vite(["resources/js/toggle.js"])
+				@include("Layouts.sidebar")
+				<div class="ml-64 p-4"
+					id="body-content">
+					<div class="my-14 rounded-lg p-4">
+			@endif
 		@endif
-		<div class='{{ !request()->routeIs("login") ? "h-[78vh] overflow-y-scroll" : "" }}'>
+		<div class='{{ !request()->routeIs("login") ? "h-[80dvh] overflow-y-scroll" : "" }}'>
 			@yield("content")
 			@include("Additional.errors")
 		</div>
@@ -46,6 +54,5 @@
 		@endif
 	</body>
 	<script src="https://unpkg.com/flowbite@1.3.4/dist/flowbite.js"></script>
-	<script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
 
 </html>

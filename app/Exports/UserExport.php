@@ -29,7 +29,7 @@ class UserExport implements FromArray, WithHeadings, WithMapping
         return [
             $user['name'],
             $user['email'],
-            $user['role']
+            $user['role']['name']
         ];
     }
 }

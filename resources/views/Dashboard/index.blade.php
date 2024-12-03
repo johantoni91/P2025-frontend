@@ -37,8 +37,23 @@
 			alt=""
 			width="20"
 			height="20">
-		Aktivitas Aplikasi</h1>
-	<div class="flex flex-row flex-wrap items-center justify-start gap-5 p-3 dark:text-white">
-		@include("Dashboard.graph")
+		Grafik</h1>
+	<div class="flex flex-row flex-wrap items-center justify-around gap-5 p-3 dark:text-white">
+		<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+		@if (count($dashboard["users"]) != 0)
+			@if (current($dashboard["users"])["graph"] == "1")
+				@include("Dashboard.Graph.users")
+			@endif
+		@endif
+		@if (count($dashboard["log"]) != 0)
+			@if (current($dashboard["log"])["graph"] == "1")
+				@include("Dashboard.Graph.log")
+			@endif
+		@endif
+		@if (count($dashboard["role"]) != 0)
+			@if (current($dashboard["role"])["graph"] == "1")
+				@include("Dashboard.Graph.roles")
+			@endif
+		@endif
 	</div>
 @endsection

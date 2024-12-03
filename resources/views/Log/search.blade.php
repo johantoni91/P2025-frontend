@@ -1,7 +1,7 @@
 <button
 	class="inline-flex items-center gap-2 rounded border-b-2 px-4 py-2 text-center text-sm font-medium duration-200 hover:border-2 dark:text-white"
 	data-modal-target="search"
-	data-modal-toggle="search"
+	data-modal-show="search"
 	type="button">
 	<img class="dark:invert"
 		src="{{ asset("assets/components/search.ico") }}"
@@ -14,7 +14,6 @@
 <div
 	class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
 	id="search"
-	data-modal-backdrop="static"
 	aria-hidden="true"
 	tabindex="-1">
 	<div class="relative max-h-full w-full max-w-2xl">
@@ -27,7 +26,7 @@
 				</h3>
 				<button
 					class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-					data-modal-toggle="search"
+					data-modal-hide="search"
 					type="button">
 					<svg class="h-3 w-3"
 						aria-hidden="true"
@@ -46,7 +45,7 @@
 			<!-- Modal body -->
 			<div class="space-y-4 overflow-x-scroll p-4 md:p-5">
 				<form action="{{ route("search", [$url]) }}">
-					<div class="mb-6">
+					<div class="mb-2">
 						<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 							for="username">Nama</label>
 						<input
@@ -56,8 +55,8 @@
 							type="text"
 							value="{{ isset($i) ? $i["username"] : "" }}" />
 					</div>
-					<div class="mb-6 grid gap-6 md:grid-cols-2">
-						<div>
+					<div class="mb-2 flex items-center justify-center gap-6">
+						<div class="w-full">
 							<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 								for="action">Aksi</label>
 							<input
@@ -67,7 +66,7 @@
 								type="text"
 								value="{{ isset($i) ? $i["action"] : "" }}" />
 						</div>
-						<div>
+						<div class="w-full">
 							<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 								for="ip_address">Alamat IP</label>
 							<input
@@ -79,11 +78,11 @@
 						</div>
 					</div>
 					<div class="mb-2">
-						<div class="flex flex-row items-center justify-between"
+						<div class="flex flex-row items-center justify-center gap-1"
 							id="date-range-picker"
 							date-rangepicker>
-							<div class="mb-2 flex flex-col">
-								<label class="block text-sm font-medium text-gray-900 dark:text-white"
+							<div class="mb-2 flex w-full flex-col">
+								<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 									for="start">Dari</label>
 								<div class="relative">
 									<div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
@@ -101,12 +100,13 @@
 										id="start"
 										name="start"
 										type="text"
+										{{-- value="{{ isset($i) ? $i["start"] : "" }}" --}}
 										placeholder="Pilih tanggal awal">
 								</div>
 							</div>
 							<span class="mx-4 self-center text-gray-500"> - </span>
-							<div class="mb-2 flex flex-col">
-								<label class="block text-sm font-medium text-gray-900 dark:text-white"
+							<div class="mb-2 flex w-full flex-col">
+								<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
 									for="end">Sampai</label>
 								<div class="relative">
 									<div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
@@ -124,9 +124,57 @@
 										id="end"
 										name="end"
 										type="text"
+										{{-- value="{{ isset($i) ? $i["end"] : "" }}" --}}
 										placeholder="Pilih tanggal akhir">
 								</div>
 							</div>
+						</div>
+					</div>
+					<div class="mb-2">
+						<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+							for="pagination">Tampilan per halaman</label>
+						<select
+							class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+							id="pagination"
+							name="pagination">
+							<option selected
+								disabled>Pilih</option>
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="25">25</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+							<option value="250">250</option>
+						</select>
+					</div>
+					<div class="mb-2 flex flex-row justify-center gap-6">
+						<div class="w-full">
+							<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+								for="sort">Urutan data</label>
+							<select
+								class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+								id="sort"
+								name="sort_by">
+								<option disabled
+									selected>Pilih</option>
+								<option value="username">Nama</option>
+								<option value="action">Aksi</option>
+								<option value="ip_address">IP Address</option>
+								<option value="updated_at">Waktu</option>
+							</select>
+						</div>
+						<div class="w-full">
+							<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+								for="sort">Urutan</label>
+							<select
+								class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+								id="sort"
+								name="sort_order">
+								<option disabled
+									selected>Pilih</option>
+								<option value="asc">Naik</option>
+								<option value="desc">Turun</option>
+							</select>
 						</div>
 					</div>
 					<div class="flex justify-end">
@@ -139,6 +187,7 @@
 						<button
 							class="mb-2 me-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#24292F]/90 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 dark:hover:bg-[#050708]/30 dark:focus:ring-gray-500"
 							id="submit"
+							data-modal-toggle="search"
 							type="submit">Cari</button>
 					</div>
 				</form>

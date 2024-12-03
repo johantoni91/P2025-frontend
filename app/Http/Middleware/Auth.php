@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use app\API\Endpoint;
+use App\Helpers\Shortcut;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
@@ -53,7 +54,6 @@ class Auth
             ];
             $res = Endpoint::post('log/store', session('user')[0]['remember_token'], $param);
             if ($res['status'] == false) {
-                Alert::error('Terjadi Kesalahan', $res['error'] ?? $res['message']);
                 Session::flush();
                 return redirect('/login');
             }

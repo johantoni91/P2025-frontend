@@ -1,5 +1,8 @@
 @extends("Layouts.body")
 @section("content")
+	@vite(["resources/js/store_face.js"])
+	<script type="text/javascript"
+		src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
 	<div class="mb-5 flex items-center justify-between px-3">
 		@include("Additional.breadcumbs", ["current" => "Tambah User"])
 	</div>
@@ -8,6 +11,57 @@
 		action="{{ route("users.store") }}"
 		enctype="multipart/form-data">
 		@csrf
+		<div class="mb-6 border-y-2 py-3"
+			id="face_recog">
+			<div class="flex items-center justify-between">
+				<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+					for="face">Face Recognition (Login dengan wajah)</label>
+				<span class="text-end text-xs font-bold text-red-500">Mohon jangan beranjak ke halaman lain sampai muncul
+					notifikasi</span>
+			</div>
+			<div class="mb-5 flex flex-row flex-wrap justify-center gap-3">
+				<video class="rounded-lg"
+					id="video"
+					autoplay
+					playsinline
+					width="320"
+					height="300"></video>
+				<canvas class="rounded-lg"
+					id="canvas"
+					width="320"
+					height="300"></canvas>
+			</div>
+			<div class="flex justify-center gap-3">
+				<button
+					class="mb-2 me-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#24292F]/90 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 dark:hover:bg-[#050708]/30 dark:focus:ring-gray-500"
+					id="take"
+					type="button">Ambil Foto</button>
+				<button
+					class="mb-2 me-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#24292F]/90 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 dark:hover:bg-[#050708]/30 dark:focus:ring-gray-500"
+					id="saveFace"
+					type="button">Simpan Foto</button>
+			</div>
+			<input id="faceName"
+				name="face"
+				type="hidden">
+			<script>
+				const video = document.getElementById('video');
+				const canvas = document.getElementById('canvas');
+				const webcam = new Webcam(video, 'user', canvas);
+
+				webcam.start()
+					.then(result => {
+						console.log("webcam started");
+					})
+					.catch(err => {
+						console.log(err);
+					});
+
+				$("#take").on('click', () => {
+					webcam.snap();
+				})
+			</script>
+		</div>
 		<div class="mb-6 grid gap-6 md:grid-cols-2">
 			<div>
 				<label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"

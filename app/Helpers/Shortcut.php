@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use app\API\Endpoint;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class Shortcut
@@ -36,12 +37,15 @@ class Shortcut
             return $val['module']['route'] == 'role' ? $val : false;
         });
 
+        $recog = Endpoint::get('recognition');
+
         return [
             'users'     => $users,
             'dashboard' => $dashboard,
             'log'       => $log,
             'layout'    => $layout,
-            'role'      => $role
+            'role'      => $role,
+            'recog'     => $recog['data']
         ];
     }
 }

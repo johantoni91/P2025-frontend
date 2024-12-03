@@ -1,7 +1,7 @@
 <button
 	class="mb-2 me-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium font-medium text-white hover:bg-[#24292F]/90 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 dark:hover:bg-[#050708]/30 dark:focus:ring-gray-500"
 	data-modal-target="addRole"
-	data-modal-toggle="addRole"
+	data-modal-show="addRole"
 	type="button">
 	Tambah Role
 </button>
@@ -9,7 +9,6 @@
 <div
 	class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
 	id="addRole"
-	data-modal-backdrop="static"
 	aria-hidden="true"
 	tabindex="-1">
 	<div class="relative max-h-full w-full max-w-2xl">
@@ -22,7 +21,7 @@
 				</h3>
 				<button
 					class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-					data-modal-toggle="addRole"
+					data-modal-hide="addRole"
 					type="button">
 					<svg class="h-3 w-3"
 						aria-hidden="true"
@@ -51,8 +50,7 @@
 						name="role_name"
 						type="text"
 						required />
-					<small class="text-xs font-semibold text-red-500">Peringatan : Role tidak bisa dihapus, hanya bisa
-						di-nonaktifkan!</small>
+					<small class="text-xs font-semibold text-red-500">Peringatan : Role tidak dapat dihapus</small>
 					<div class="flex justify-end">
 						<button
 							class="my-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium font-medium text-white hover:bg-[#24292F]/90 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 dark:hover:bg-[#050708]/30 dark:focus:ring-gray-500"

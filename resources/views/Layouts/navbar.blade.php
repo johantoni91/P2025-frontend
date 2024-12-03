@@ -1,16 +1,17 @@
-<nav class="fixed top-0 z-[70] w-full border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+<nav class="fixed top-0 z-20 w-full border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
 	<div class="px-3 py-3 lg:px-5 lg:pl-3">
 		<div class="flex items-center justify-between">
 			<div class="flex items-center justify-start rtl:justify-end">
 				<button
-					class="inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:hidden"
-					data-drawer-target="logo-sidebar"
-					data-drawer-toggle="logo-sidebar"
+					class="inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+					id="toggle-side"
 					type="button"
-					aria-controls="logo-sidebar">
+					{{-- data-drawer-target="logo-sidebar"
+					data-drawer-toggle="logo-sidebar" --}}
+					{{-- aria-controls="logo-sidebar" --}}>
 					<span class="sr-only">Open sidebar</span>
 					<svg class="h-6 w-6"
-						aria-hidden="true"
+						aria-hidden="false"
 						fill="currentColor"
 						viewBox="0 0 20 20"
 						xmlns="http://www.w3.org/2000/svg">
@@ -30,7 +31,7 @@
 						class="self-center whitespace-nowrap text-xl font-semibold dark:text-white sm:text-2xl">{{ session("layout")[0]["short_app_name"] }}</span>
 				</a>
 			</div>
-			<div class="flex items-center">
+			<div class="relative flex items-center">
 				<div class="ms-3 flex items-center gap-3">
 					<button class="flex rounded-full bg-transparent text-sm focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
 						data-dropdown-trigger="hover"
@@ -104,6 +105,18 @@
 						</div>
 						<ul class="py-1"
 							role="none">
+							@if (current(session("role")[0])["face"] == "1")
+								<li>
+									<button
+										class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+										data-modal-target="recog"
+										data-modal-show="recog"
+										type="button"
+										role="menuitem">
+										Face Recognition
+									</button>
+								</li>
+							@endif
 							<li>
 								<a
 									class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -123,6 +136,9 @@
 		</div>
 	</div>
 </nav>
+@if (current(session("role")[0])["face"])
+	@include("Auth.Recognition.index")
+@endif
 <script>
 	function updateClock() {
 		const now = new Date();

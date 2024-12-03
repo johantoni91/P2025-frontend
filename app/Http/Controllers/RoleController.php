@@ -74,6 +74,7 @@ class RoleController extends Controller
             'modules_id'    => $req->modul,
             'status'        => $req->status,
             'dashboard'     => $req->dashboard,
+            'graph'         => $req->graph,
             'permission'    => $req->permission
         ];
 
@@ -93,5 +94,16 @@ class RoleController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    function face($id)
+    {
+        $res = Endpoint::get($this->url . '/setting-face' . '/' . $id, session('user')[0]['remember_token']);
+        if ($res['status'] == false) {
+            Alert::warning($res['error'] ?? $res['message']);
+            return back();
+        }
+        Alert::success($res['message']);
+        return back();
     }
 }

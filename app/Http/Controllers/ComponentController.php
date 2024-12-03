@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use app\API\Endpoint;
 use App\Helpers\Shortcut;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -14,11 +13,13 @@ class ComponentController extends Controller
     {
         try {
             $data = Http::withToken(session('user')[0]['remember_token'])->get(decrypt($link))->json();
+            $role = Endpoint::get('role', session('user')[0]['remember_token'])['data']['role'];
             return view($view, [
                 'view'  => $view,
                 'data'  => $data['data'],
                 'url'   => $url,
                 'home'  => $home,
+                'roles'     => $role,
                 'dashboard' => Shortcut::access()
             ]);
         } catch (\Throwable $th) {
@@ -43,7 +44,7 @@ class ComponentController extends Controller
                 'dashboard' => Shortcut::access()
             ]);
         } catch (\Throwable $th) {
-            Alert::error('Gagal', 'Silahkan isi format masukkan dengan benar');
+            Alert::error('Gagal', 'Silahkan isi input dengan benar');
             return back();
         }
     }
