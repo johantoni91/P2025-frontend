@@ -35,7 +35,7 @@ class Auth
                 'entity'        => 'user',
                 'entity_id'     => session('user')[0]['id'],
                 'ip_address'    => $request->ip(),
-                'status_code'   => $response->status(),
+                'status_code'   => $response->status() ?? '200',
                 'user_agent'    => $request->header('User-Agent'),
                 'url'           => $request->fullUrl(),
                 'location'      => '',

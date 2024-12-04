@@ -72,20 +72,15 @@ class AuthController extends Controller
     function loginWithFace(Request $req)
     {
         try {
-            $face_recog = [];
-            foreach ($req->res['result'] as $result) {
-                foreach ($result['mask'] as $mask) {
-                    $face_recog['mask'] = $mask['value'];
-                }
-                foreach ($result['subjects'] as $subject) {
-                    $face_recog['similarity'] = $subject['similarity'];
-                }
-            }
+            $face = Endpoint::get('recognition')['data'][0];
+            $face_recog = [
+                'mask'          => $req->res['result'][0]['mask']['value'],
+                'similarity'    => $req->res['result'][0]['subjects'][0]['similarity']
+            ];
 
-            $face = Endpoint::get('recognition');
-            if (($face_recog['similarity'] >= intval($face['data'][0]['similarity']) / 100) && ($face_recog['mask'] == $face['data'][0]['mask'])) {
+            if (($face_recog['similarity'] >= $face['similarity'] / 100) && ($face_recog['mask'] == $face['mask'])) {
                 $res = Endpoint::post('login-face', null, [
-                    'face'          => $subject['subject'],
+                    'face'          => $req->res['result'][0]['subjects'][0]['subject'],
                 ]);
 
                 $layout = Endpoint::get('layout')['data'][0];
@@ -106,7 +101,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status'    => false,
                     'message'   => 'Wajah tidak dikenali',
-                    'masker'    => $face['data'][0]['mask'] == 'without_mask' ? 'Mohon lepas masker' : 'Mohon gunakan masker'
+                    'masker'    => $face['mask'] == 'without_mask' ? 'Mohon lepas masker' : 'Mohon gunakan masker'
                 ]);
             }
         } catch (\Throwable $th) {

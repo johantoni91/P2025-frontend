@@ -70,7 +70,7 @@ video.addEventListener("play", () => {
                             btn.classList.remove("hidden");
                             Swal.fire({
                                 title: `Gagal Login`,
-                                text: respon.message,
+                                text: respon.message + " " + respon.masker,
                                 icon: "error",
                                 confirmButtonText: "OK",
                                 confirmButtonColor: "#d33",
