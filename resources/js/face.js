@@ -68,9 +68,10 @@ video.addEventListener("play", () => {
                             window.location.href = "/";
                         } else {
                             btn.classList.remove("hidden");
+                            console.log(respon)
                             Swal.fire({
                                 title: `Gagal Login`,
-                                text: respon.message + " " + respon.masker,
+                                text: respon.message,
                                 icon: "error",
                                 confirmButtonText: "OK",
                                 confirmButtonColor: "#d33",

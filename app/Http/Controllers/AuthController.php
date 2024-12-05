@@ -75,21 +75,21 @@ class AuthController extends Controller
             $face = Endpoint::get('recognition')['data'][0];
             $face_recog = [
                 'mask'          => $req->res['result'][0]['mask']['value'],
-                'similarity'    => $req->res['result'][0]['subjects'][0]['similarity']
+                'similarity'    => $req->res['result'][0]['subjects'][0]['similarity'],
+                'subject'       => $req->res['result'][0]['subjects'][0]['subject']
             ];
 
             if (($face_recog['similarity'] >= $face['similarity'] / 100) && ($face_recog['mask'] == $face['mask'])) {
                 $res = Endpoint::post('login-face', null, [
-                    'face'          => $req->res['result'][0]['subjects'][0]['subject'],
+                    'face'          => $face_recog['subject'],
                 ]);
-
-                $layout = Endpoint::get('layout')['data'][0];
                 if ($res['status'] == false) {
                     return response()->json([
                         'status'    => false,
                         'message'   => $res['error'] ?? $res['message']
                     ]);
                 } else {
+                    $layout = Endpoint::get('layout')['data'][0];
                     Session::push('user', $res['data']['user']);
                     Session::push('role', $res['data']['role']);
                     Session::push('layout', $layout);
