@@ -42,7 +42,7 @@
 					<div class="my-14 rounded-lg p-4">
 			@endif
 		@endif
-		<div class='{{ !request()->routeIs("login") ? "h-[80dvh] overflow-y-scroll" : "" }}'>
+		<div class='{{ !request()->routeIs("login") ? "h-100" : "" }}'>
 			@yield("content")
 			@include("Additional.errors")
 		</div>

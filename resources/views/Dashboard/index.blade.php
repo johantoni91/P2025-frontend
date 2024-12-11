@@ -38,7 +38,7 @@
 			width="20"
 			height="20">
 		Grafik</h1>
-	<div class="flex flex-row flex-wrap items-center justify-around gap-5 p-3 dark:text-white">
+	<div class="flex flex-row flex-wrap items-center justify-around gap-5 overflow-y-scroll p-3 dark:text-white">
 		<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 		@if (count($dashboard["users"]) != 0)
 			@if (current($dashboard["users"])["graph"] == "1")

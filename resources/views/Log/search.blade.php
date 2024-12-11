@@ -101,7 +101,7 @@
 										name="start"
 										type="text"
 										{{-- value="{{ isset($i) ? $i["start"] : "" }}" --}}
-										placeholder="Pilih tanggal awal">
+										placeholder="Tanggal awal">
 								</div>
 							</div>
 							<span class="mx-4 self-center text-gray-500"> - </span>
@@ -125,7 +125,7 @@
 										name="end"
 										type="text"
 										{{-- value="{{ isset($i) ? $i["end"] : "" }}" --}}
-										placeholder="Pilih tanggal akhir">
+										placeholder="Tanggal akhir">
 								</div>
 							</div>
 						</div>

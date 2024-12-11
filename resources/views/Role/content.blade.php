@@ -15,7 +15,7 @@
 						src="{{ current($face)["face"] == "1" ? asset("assets/components/on.ico") : asset("assets/components/off.ico") }}"
 						alt=""
 						width="30"
-						height="30"><span class="text-sm font-semibold"> Atur Face Recognition</span></a>
+						height="30"><span class="text-sm font-semibold dark:text-white"> Atur Face Recognition</span></a>
 			</div>
 			<div class="relative overflow-x-auto">
 				<table class="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
